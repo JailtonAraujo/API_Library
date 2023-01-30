@@ -3,7 +3,7 @@ package com.br.apilibrary.service.impls;
 import com.br.apilibrary.entity.Order;
 import com.br.apilibrary.repository.OrderRepository;
 import com.br.apilibrary.service.OrderService;
-import jakarta.persistence.NoResultException;
+import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
