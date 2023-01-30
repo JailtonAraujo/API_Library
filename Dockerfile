@@ -6,4 +6,4 @@ COPY ./target/customer.jar .
 
 EXPOSE 8083
 
-CMD [ "java", "-jar", "customer.jar" ]
+CMD [ "java", "-jar", "api-library.jar" ]
