@@ -2,7 +2,7 @@ FROM openjdk:11
 
 WORKDIR /usr/src/myapp
 
-COPY ./target/customer.jar .
+COPY ./target/api-library.jar .
 
 EXPOSE 8083
 
