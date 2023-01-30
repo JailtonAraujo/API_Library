@@ -1,0 +1,6 @@
+services:
+  api:
+    container_name: container_api-library
+    image: jai1998/api-library
+    ports:
+      - "8082:8082"
