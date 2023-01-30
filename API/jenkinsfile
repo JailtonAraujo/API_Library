@@ -9,6 +9,7 @@ pipeline{
         stage('building project'){
             steps{
                 echo 'Building maven project'
+                sh 'cd /API'
                 sh 'mvn clean install'
             }
         }
