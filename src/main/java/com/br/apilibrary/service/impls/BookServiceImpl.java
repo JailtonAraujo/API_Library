@@ -7,7 +7,9 @@ import com.br.apilibrary.repository.OrderRepository;
 import com.br.apilibrary.service.BookService;
 import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -93,7 +95,7 @@ public class BookServiceImpl implements BookService {
         order.setCheckIn(LocalDate.now());
         order.setCheckOut(LocalDate.now().plusDays(10));
 
-        bookRepository.changeQuantityBook(order.getBook().getId(),(order.getBook().getQuant()-1));//Decrement book quantity
+        decrementQuantityBook(order.getBook().getId());//Decrement book quantity
 
         return orderRepository.save(order);
     }
@@ -132,6 +134,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @Modifying
     public Float checkOutBook(Integer id) {
 
         Optional<Order> optional = orderRepository.findById(id);
@@ -140,9 +144,9 @@ public class BookServiceImpl implements BookService {
             throw new NoResultException("Order not found!");
         }
 
-        bookRepository.changeQuantityBook(optional.get().getBook().getId(), (optional.get().getBook().getQuant()+1));
+       incrementQuantityBook(optional.get().getBook().getId());
 
-        delete(id);
+        orderRepository.deleteById(optional.get().getId());
 
         return CalculatorLateForDayFee(optional.get().getCheckOut());
 
